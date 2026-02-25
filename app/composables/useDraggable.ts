@@ -11,6 +11,7 @@ export function useDraggable(handleSelector = '.cursor-grab') {
   let startY = 0
   let startLeft = 0
   let startTop = 0
+  let placeholder: HTMLElement | null = null
 
   function onPointerDown(e: PointerEvent) {
     const handle = (e.target as HTMLElement).closest(handleSelector)
@@ -23,11 +24,18 @@ export function useDraggable(handleSelector = '.cursor-grab') {
 
     const rect = elementRef.value!.getBoundingClientRect()
 
-    // First drag: capture size and detach from flow to fixed positioning
+    // First drag: capture size, insert placeholder to hold layout space, detach to fixed
     if (!isDetached.value) {
       fixedPos.value = { left: rect.left, top: rect.top }
       fixedSize.value = { width: rect.width, height: rect.height }
       isDetached.value = true
+
+      placeholder = document.createElement('div')
+      placeholder.style.width = `${rect.width}px`
+      placeholder.style.height = `${rect.height}px`
+      placeholder.style.flexShrink = '0'
+      placeholder.style.pointerEvents = 'none'
+      elementRef.value!.parentNode!.insertBefore(placeholder, elementRef.value)
     }
 
     isDragging.value = true
@@ -84,6 +92,7 @@ export function useDraggable(handleSelector = '.cursor-grab') {
     elementRef.value?.removeEventListener('pointerdown', onPointerDown)
     document.removeEventListener('pointermove', onPointerMove)
     document.removeEventListener('pointerup', onPointerUp)
+    placeholder?.remove()
   })
 
   return {

@@ -4,14 +4,14 @@ const { selectedBackground } = useSettings()
 const showSettings = ref(false)
 
 const backgrounds: Record<string, string> = {
-  'benny-cafe': '/images/benny_cafe.png',
+  'dragon-shrine': '/images/dragon_shrine.jpg',
   'sensei': '/images/sensei.jpg',
   'birds': '/images/birds.jpg',
   'coffee-dragon': '/images/coffee_dragon.jpg',
-  'dragon-shrine': '/images/dragon_shrine.jpg',
   'sea': '/images/sea.png',
   'workspace': '/images/workspace.jpg',
-  'capy-crow': '/images/capy_crow.png'
+  'capy-crow': '/images/capy_crow.png',
+  'benny-cafe': '/images/benny_cafe.png'
 }
 
 const backgroundSrc = computed(() => backgrounds[selectedBackground.value] ?? backgrounds['benny-cafe'])

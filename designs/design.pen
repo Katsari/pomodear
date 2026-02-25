@@ -985,8 +985,8 @@
                     {
                       "type": "frame",
                       "id": "tRuEi",
-                      "x": -11,
-                      "y": 0,
+                      "x": 136,
+                      "y": 58,
                       "name": "timerGroup",
                       "width": 455,
                       "height": 389,
@@ -2072,7 +2072,7 @@
             {
               "type": "image",
               "enabled": true,
-              "url": "./images/generated-1771174112350.png",
+              "url": "./images/logo.png",
               "mode": "fill"
             }
           ],
