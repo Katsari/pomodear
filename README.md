@@ -46,7 +46,7 @@ bun run typecheck
 ## Deploy to Cloudflare Pages
 
 ```bash
-bun run build && bunx wrangler pages deploy .output/public --project-name pomodear
+bun run build && bunx wrangler --cwd dist pages deploy --project-name pomodear
 ```
 
 ## Tech Stack

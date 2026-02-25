@@ -15,7 +15,7 @@ bun run lint         # ESLint (stylistic: no comma dangle, 1tbs braces)
 bun run typecheck    # vue-tsc type checking
 
 # Deploy to Cloudflare Pages
-bun run build && bunx wrangler pages deploy .output/public --project-name pomodear
+bun run build && bunx wrangler --cwd dist pages deploy --project-name pomodear
 ```
 
 Package manager is **bun**. No test framework is configured.
