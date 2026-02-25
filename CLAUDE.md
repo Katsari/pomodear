@@ -13,6 +13,9 @@ bun run dev          # Dev server at http://localhost:3000
 bun run build        # Production build
 bun run lint         # ESLint (stylistic: no comma dangle, 1tbs braces)
 bun run typecheck    # vue-tsc type checking
+
+# Deploy to Cloudflare Pages
+bun run build && bunx wrangler pages deploy .output/public --project-name pomodear
 ```
 
 Package manager is **bun**. No test framework is configured.

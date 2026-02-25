@@ -2,7 +2,7 @@
 
 A cozy Pomodoro timer with advanced daily note and writing editors, music playback, ambient sounds, and quotes.
 
-Built with Nuxt 4, Nuxt UI 4, and Tailwind CSS 4.
+Built with Nuxt 4, Nuxt UI 4, and Tailwind CSS 4. Live at [pomodear.pages.dev](https://pomodear.pages.dev).
 
 ## Features
 
@@ -41,6 +41,12 @@ bun run preview
 ```bash
 bun run lint
 bun run typecheck
+```
+
+## Deploy to Cloudflare Pages
+
+```bash
+bun run build && bunx wrangler pages deploy .output/public --project-name pomodear
 ```
 
 ## Tech Stack
