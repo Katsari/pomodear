@@ -34,6 +34,14 @@ export default defineNuxtConfig({
     '/': { prerender: true }
   },
 
+  nitro: {
+    preset: 'cloudflare_pages',
+    cloudflare: {
+      deployConfig: true,
+      nodeCompat: true
+    }
+  },
+
   compatibilityDate: '2025-01-15',
 
   vite: {
