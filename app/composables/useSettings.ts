@@ -15,7 +15,7 @@ let _selectedBackground: Ref<string> | null = null
 export function useSettings() {
   if (!_userName) _userName = useLocalStorage('pomodear-username', '')
   if (!_timerSettings) _timerSettings = useLocalStorage<TimerSettings>('pomodear-settings', defaultSettings)
-  if (!_selectedBackground) _selectedBackground = useLocalStorage('pomodear-background', 'benny-cafe')
+  if (!_selectedBackground) _selectedBackground = useLocalStorage('pomodear-background', 'dragon-shrine')
 
   return {
     userName: _userName,

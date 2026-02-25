@@ -79,7 +79,6 @@ All side panels are wrapped in `DraggableWrapper` for detachable drag. Panels us
 - **Color system**: CSS custom properties in `:root` (`--bg-*`, `--accent-*`, `--text-*`, `--border-subtle`). Tailwind theme extends primary palette (warm brown/amber).
 - **Fonts**: Fraunces (display/timer), Plus Jakarta Sans (UI), Space Mono (data) via `@nuxtjs/google-fonts`
 - **Icons**: Lucide icon set via `@iconify-json/lucide`, used as `i-lucide-*` with Nuxt UI's `<UIcon>`. `@iconify-json/simple-icons` is installed but currently unused.
-- **Images**: `@nuxt/image` provides `<NuxtImg>` for background images.
 - **Rich text**: DailyNotePanel uses Nuxt UI's `<UEditor>` backed by Tiptap with `@tiptap/extension-task-list` and `@tiptap/extension-task-item`.
 - **Timer ring**: SVG circle with `stroke-dashoffset` animation and a subtle pulsing animation.
 

@@ -3,14 +3,14 @@ const open = defineModel<boolean>({ default: false })
 const { userName, timerSettings, selectedBackground } = useSettings()
 
 const backgrounds = [
-  { key: 'dragon-shrine', label: 'Dragon Shrine', image: '/images/dragon_shrine.jpg' },
-  { key: 'sensei', label: 'Sensei', image: '/images/sensei.jpg' },
-  { key: 'birds', label: 'Birds', image: '/images/birds.jpg' },
-  { key: 'coffee-dragon', label: 'Coffee Dragon', image: '/images/coffee_dragon.jpg' },
-  { key: 'sea', label: 'Sea', image: '/images/sea.png' },
-  { key: 'workspace', label: 'Workspace', image: '/images/workspace.jpg' },
-  { key: 'capy-crow', label: 'Capy & Crow', image: '/images/capy_crow.png' },
-  { key: 'benny-cafe', label: 'Benny\'s Café', image: '/images/benny_cafe.png' }
+  { key: 'dragon-shrine', label: 'Dragon Shrine', image: '/images/dragon_shrine.webp' },
+  { key: 'sensei', label: 'Sensei', image: '/images/sensei.webp' },
+  { key: 'birds', label: 'Birds', image: '/images/birds.webp' },
+  { key: 'coffee-dragon', label: 'Coffee Dragon', image: '/images/coffee_dragon.webp' },
+  { key: 'sea', label: 'Sea', image: '/images/sea.webp' },
+  { key: 'workspace', label: 'Workspace', image: '/images/workspace.webp' },
+  { key: 'capy-crow', label: 'Capy & Crow', image: '/images/capy_crow.webp' },
+  { key: 'benny-cafe', label: 'Benny\'s Café', image: '/images/benny_cafe.webp' }
 ]
 </script>
 

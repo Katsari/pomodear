@@ -4,31 +4,29 @@ const { selectedBackground } = useSettings()
 const showSettings = ref(false)
 
 const backgrounds: Record<string, string> = {
-  'dragon-shrine': '/images/dragon_shrine.jpg',
-  'sensei': '/images/sensei.jpg',
-  'birds': '/images/birds.jpg',
-  'coffee-dragon': '/images/coffee_dragon.jpg',
-  'sea': '/images/sea.png',
-  'workspace': '/images/workspace.jpg',
-  'capy-crow': '/images/capy_crow.png',
-  'benny-cafe': '/images/benny_cafe.png'
+  'dragon-shrine': '/images/dragon_shrine.webp',
+  'sensei': '/images/sensei.webp',
+  'birds': '/images/birds.webp',
+  'coffee-dragon': '/images/coffee_dragon.webp',
+  'sea': '/images/sea.webp',
+  'workspace': '/images/workspace.webp',
+  'capy-crow': '/images/capy_crow.webp',
+  'benny-cafe': '/images/benny_cafe.webp'
 }
 
-const backgroundSrc = computed(() => backgrounds[selectedBackground.value] ?? backgrounds['benny-cafe'])
+const backgroundSrc = computed(() => backgrounds[selectedBackground.value] ?? backgrounds['dragon-shrine'])
 </script>
 
 <template>
   <div class="relative w-screen h-screen overflow-hidden">
     <!-- Background layers -->
     <div class="absolute inset-0">
-      <NuxtImg
+      <img
         :src="backgroundSrc"
         alt=""
         class="absolute inset-0 w-full h-full object-cover object-[center_50%]"
-        format="webp"
-        quality="80"
         loading="eager"
-      />
+      >
       <div
         class="absolute inset-0"
         style="background-color: rgba(62, 26, 10, 0.20);"

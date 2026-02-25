@@ -2,7 +2,6 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
     '@nuxt/ui',
-    '@nuxt/image',
     '@nuxtjs/google-fonts'
   ],
 
@@ -34,6 +33,8 @@ export default defineNuxtConfig({
     '/': { prerender: true }
   },
 
+  compatibilityDate: '2025-01-15',
+
   nitro: {
     preset: 'cloudflare_pages',
     cloudflare: {
@@ -41,8 +42,6 @@ export default defineNuxtConfig({
       nodeCompat: true
     }
   },
-
-  compatibilityDate: '2025-01-15',
 
   vite: {
     optimizeDeps: {

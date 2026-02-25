@@ -51,7 +51,7 @@
           "fill": {
             "type": "image",
             "enabled": true,
-            "url": "../public/images/benny_cafe.png",
+            "url": "../public/images/benny_cafe.webp",
             "mode": "fill"
           }
         },
