@@ -100,7 +100,7 @@ Disabled (`ssr: false`). Client-only guards (`import.meta.client`) protect brows
 
 ### Deployment
 
-SPA build outputs to `.output/public/`, suited for static hosts (deployed to Cloudflare Pages at `pomodear.pages.dev`).
+SPA build outputs to `dist/`, suited for static hosts (deployed to Cloudflare Pages at `pomodear.pages.dev`).
 
 ## Known Limitations
 
