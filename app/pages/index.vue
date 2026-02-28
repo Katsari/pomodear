@@ -3,6 +3,8 @@ const { panels } = usePanels()
 const { selectedBackground } = useSettings()
 const showSettings = ref(false)
 
+const { showShortcuts } = useKeyboardShortcuts()
+
 const backgrounds: Record<string, string> = {
   'dragon-shrine': '/images/dragon_shrine.webp',
   'sensei': '/images/sensei.webp',
@@ -81,8 +83,9 @@ const backgroundSrc = computed(() => backgrounds[selectedBackground.value] ?? ba
       </div>
     </div>
 
-    <!-- Settings Modal -->
+    <!-- Modals -->
     <SettingsModal v-model="showSettings" />
+    <ShortcutsModal v-model="showShortcuts" />
   </div>
 </template>
 

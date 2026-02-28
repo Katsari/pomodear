@@ -18,11 +18,13 @@ const backgrounds = [
   <UModal
     v-model:open="open"
     title="Settings"
+    description="Configure timer, username, and background"
     :close="true"
     :ui="{
       content: 'bg-(--bg-surface) border border-(--border-subtle) rounded-2xl max-w-md',
       header: 'border-b border-(--border-subtle)',
       title: 'font-display text-lg font-semibold text-(--text-primary)',
+      description: 'sr-only',
       body: 'p-5 flex flex-col gap-5',
       close: 'text-(--text-dim) hover:text-(--text-secondary)',
       overlay: 'bg-black/50'
@@ -104,6 +106,13 @@ const backgrounds = [
             <span v-if="!bg.image">{{ bg.label }}</span>
           </button>
         </div>
+      </div>
+
+      <!-- Keyboard shortcuts hint -->
+      <div class="flex items-center justify-center gap-1.5 text-xs text-(--text-dimmer)">
+        <span>Press</span>
+        <kbd class="px-1.5 py-0.5 rounded bg-(--bg-surface-dark) border border-(--border-subtle) font-mono text-(--text-muted)">?</kbd>
+        <span>for keyboard shortcuts</span>
       </div>
 
       <!-- Credits -->
