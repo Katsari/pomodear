@@ -1,25 +1,23 @@
 # Pomodear
 
-Your cozy corner for deep work.
-
 A customizable productivity workspace with a Pomodoro timer, ambient sounds, music, task tracking, and a daily note editor. Built with Nuxt 4, Nuxt UI 4, and Tailwind CSS 4. Live at [pomodear.pages.dev](https://pomodear.pages.dev).
 
 ## Why Pomodear?
 
-Most Pomodoro apps are either too cluttered or too minimal. Pomodear takes a different approach - every panel is draggable and hideable, so you build your own workspace with only what you need. Full focus mode? Hide everything. Want ambient rain and a task list? Drag just those in. Your desk, your rules.
+Most Pomodoro apps are either too cluttered or too minimal. Pomodear lets you drag and hide panels, so your workspace can change depending on what you're doing and what actually helps you focus. Some days I want a totally clean timer, other days I want a task list and rain sounds in the background, and sometimes I just want to write in fullscreen.
 
 ![Pomodear screenshot](https://raw.githubusercontent.com/Katsari/pomodear/main/public/images/pomodear.png)
 
 ## Features
 
-- **Pomodoro Timer**: Focus, break, and long break cycles with an animated SVG ring
-- **Music Player**: Background playlist with playback controls
-- **Ambient Sounds**: Mix rain, fireplace, forest, and ocean sounds with independent volume controls
-- **Task Tracking**: Create, complete, and manage tasks during sessions
-- **Daily Note**: Rich text editor with plan and write modes and auto-save
-- **Daily Quotes**: A fresh motivational quote each day
-- **Draggable Panels**: All side panels detach and reposition by dragging
-- **Glass-morphism UI**: Frosted-glass aesthetic with warm brown/amber palette
+- **Pomodoro Timer**: focus, break, and long break cycles with animations
+- **Music Player**: background playlist with play/pause and skip controls
+- **Ambient Sounds**: mix rain, fireplace, forest, and ocean sounds with independent volume controls
+- **Task Tracking**: create, complete, and manage tasks during sessions
+- **Daily Note**: rich text editor with plan and write modes, fullscreen support, and auto-save
+- **Daily Quotes**: a different quote each day from philosophers, scientists and writers
+- **Draggable Panels**: drag panels anywhere on screen or hide them completely
+- **Glass-morphism UI**: frosted-glass aesthetic with warm brown/amber palette
 
 ## Getting Started
 
