@@ -145,9 +145,9 @@ function handleAdd() {
       No tasks yet. Type above and press Enter.
     </p>
 
-    <!-- Resize handle -->
+    <!-- Resize handle (desktop only) -->
     <div
-      class="h-1 -mb-2 cursor-ns-resize group/resize flex items-center justify-center"
+      class="h-1 -mb-2 cursor-ns-resize group/resize hidden lg:flex items-center justify-center"
       :class="{ 'select-none': isResizing }"
       @pointerdown.prevent="onResizeStart"
     >

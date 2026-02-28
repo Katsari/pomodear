@@ -52,7 +52,7 @@ function onEditKeydown(e: KeyboardEvent) {
     <UIcon
       v-if="!task.completed"
       name="i-lucide-grip-vertical"
-      class="drag-handle w-3.5 h-3.5 text-(--text-dimmer) shrink-0 opacity-0 group-hover:opacity-50 hover:opacity-100! transition-opacity"
+      class="drag-handle w-3.5 h-3.5 text-(--text-dimmer) shrink-0 lg:opacity-0 lg:group-hover:opacity-50 lg:hover:opacity-100! transition-opacity"
       style="cursor: grab"
       @pointerdown.stop="emit('pointerdownHandle', $event)"
     />
@@ -95,7 +95,7 @@ function onEditKeydown(e: KeyboardEvent) {
     </span>
 
     <!-- Actions -->
-    <div class="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+    <div class="flex items-center gap-0.5 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
       <button
         class="w-5 h-5 flex items-center justify-center rounded text-(--text-dimmer) hover:text-red-400 transition-colors"
         @click="$emit('remove', task.id)"

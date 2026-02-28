@@ -1,6 +1,7 @@
 <script setup lang="ts">
-const { panels } = usePanels()
+const { panels, closeAllPanels, activeMobilePanel } = usePanels()
 const { selectedBackground } = useSettings()
+const { isMobile } = useIsMobile()
 const showSettings = ref(false)
 
 const { showShortcuts } = useKeyboardShortcuts()
@@ -39,16 +40,20 @@ const backgroundSrc = computed(() => backgrounds[selectedBackground.value] ?? ba
     <div class="relative z-10 flex flex-col h-full">
       <NavBar v-model:show-settings="showSettings" />
 
-      <div class="flex justify-center py-3 h-[56px] shrink-0">
+      <!-- Desktop: draggable floating ActionBar -->
+      <div
+        v-if="!isMobile"
+        class="flex justify-center py-3 h-[56px] shrink-0"
+      >
         <DraggableWrapper>
           <ActionBar />
         </DraggableWrapper>
       </div>
 
-      <!-- Main 3-column layout -->
-      <div class="flex-1 flex items-stretch px-4 pb-4 gap-6 min-h-0">
-        <!-- Left: Music + Quote -->
-        <div class="w-[300px] shrink-0 flex flex-col gap-3">
+      <!-- Main layout -->
+      <div class="flex-1 flex items-stretch px-2 lg:px-4 pb-4 gap-6 min-h-0">
+        <!-- Left: Music + Quote (desktop only) -->
+        <div class="hidden lg:flex w-[300px] shrink-0 flex-col gap-3">
           <Transition name="slide-left">
             <DraggableWrapper
               v-if="panels.music"
@@ -67,8 +72,8 @@ const backgroundSrc = computed(() => backgrounds[selectedBackground.value] ?? ba
         <!-- Center: Timer -->
         <TimerArea />
 
-        <!-- Right: Tasks + Daily Note -->
-        <div class="w-[440px] shrink-0 flex flex-col gap-3 min-h-0 overflow-y-auto scrollbar-glass">
+        <!-- Right: Tasks + Daily Note (desktop only) -->
+        <div class="hidden lg:flex w-[440px] shrink-0 flex-col gap-3 min-h-0 overflow-y-auto scrollbar-glass">
           <Transition name="slide-right">
             <DraggableWrapper v-if="panels.tasks">
               <TasksPanel />
@@ -82,6 +87,59 @@ const backgroundSrc = computed(() => backgrounds[selectedBackground.value] ?? ba
         </div>
       </div>
     </div>
+
+    <!-- Mobile: fixed bottom ActionBar dock -->
+    <div
+      v-if="isMobile"
+      class="fixed bottom-0 inset-x-0 z-30 flex justify-center p-2 pb-safe"
+    >
+      <ActionBar />
+    </div>
+
+    <!-- Mobile: panel slide-up sheets -->
+    <Teleport to="body">
+      <!-- Backdrop -->
+      <Transition name="fade">
+        <div
+          v-if="isMobile && activeMobilePanel"
+          class="fixed inset-0 z-40 bg-black/40"
+          @click="closeAllPanels"
+        />
+      </Transition>
+      <!-- Sheet -->
+      <Transition name="slide-up">
+        <div
+          v-if="isMobile && activeMobilePanel"
+          class="fixed inset-x-0 bottom-0 z-50 max-h-[80vh] rounded-t-2xl overflow-hidden"
+        >
+          <!-- Drag indicator / close tap -->
+          <div
+            class="sticky top-0 z-10 flex justify-center py-2 glass-nav border-t border-x border-(--border-subtle) rounded-t-2xl"
+            @click="closeAllPanels"
+          >
+            <div class="w-10 h-1 rounded-full bg-(--text-dimmer)" />
+          </div>
+          <div class="overflow-y-auto max-h-[calc(80vh-28px)] scrollbar-glass pb-safe">
+            <MusicPanel
+              v-if="activeMobilePanel === 'music'"
+              class="rounded-t-none border-t-0"
+            />
+            <TasksPanel
+              v-if="activeMobilePanel === 'tasks'"
+              class="rounded-t-none border-t-0"
+            />
+            <DailyNotePanel
+              v-if="activeMobilePanel === 'dailyNote'"
+              class="rounded-t-none border-t-0"
+            />
+            <QuotePanel
+              v-if="activeMobilePanel === 'quote'"
+              class="rounded-t-none border-t-0"
+            />
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
 
     <!-- Modals -->
     <SettingsModal v-model="showSettings" />

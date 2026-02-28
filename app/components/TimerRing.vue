@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const props = withDefaults(defineProps<{ size?: number }>(), { size: 210 })
+
 const { displayTime, progress, isRunning, currentMode, currentSession, totalSessions } = useTimer()
 
 const radius = 154
@@ -13,15 +15,27 @@ const modeLabel = computed(() => {
     default: return 'Focus'
   }
 })
+
+// Proportional scaling based on size
+const scale = computed(() => props.size / 210)
+const fontSize = computed(() => `${Math.round(46 * scale.value)}px`)
+const labelTop = computed(() => `${Math.round(48 * scale.value)}px`)
+const labelFontSize = computed(() => `${Math.round(10 * scale.value)}px`)
+const dotsTop = computed(() => `${Math.round(165 * scale.value)}px`)
+const handleTop = computed(() => `${Math.round(22 * scale.value)}px`)
+const glowInset = computed(() => `${Math.round(-12 * scale.value)}px`)
 </script>
 
 <template>
-  <div class="relative w-[210px] h-[210px]">
+  <div
+    class="relative"
+    :style="{ width: `${size}px`, height: `${size}px` }"
+  >
     <!-- Outer glow (pulses when running) -->
     <div
-      class="absolute inset-[-12px] rounded-full transition-opacity duration-1000"
+      class="absolute rounded-full transition-opacity duration-1000"
       :class="isRunning ? 'timer-glow opacity-100' : 'opacity-0'"
-      style="background: radial-gradient(circle, rgba(94, 158, 207, 0.12) 0%, transparent 70%);"
+      :style="{ inset: glowInset, background: 'radial-gradient(circle, rgba(94, 158, 207, 0.12) 0%, transparent 70%)' }"
     />
 
     <svg
@@ -163,10 +177,11 @@ const modeLabel = computed(() => {
       />
     </svg>
 
-    <!-- Drag handle -->
+    <!-- Drag handle (hidden on mobile / small sizes) -->
     <div
+      v-if="size >= 210"
       class="absolute inset-x-0 z-10 flex justify-center cursor-grab"
-      style="top: 22px;"
+      :style="{ top: handleTop }"
     >
       <UIcon
         name="i-lucide-grip-horizontal"
@@ -176,8 +191,8 @@ const modeLabel = computed(() => {
 
     <!-- Session label -->
     <span
-      class="absolute inset-x-0 text-center font-ui text-[10px] font-medium tracking-wide uppercase"
-      style="top: 48px; color: #9a9a9a;"
+      class="absolute inset-x-0 text-center font-ui font-medium tracking-wide uppercase"
+      :style="{ top: labelTop, fontSize: labelFontSize, color: '#9a9a9a' }"
     >
       {{ modeLabel }} Session {{ currentSession }} of {{ totalSessions }}
     </span>
@@ -185,8 +200,8 @@ const modeLabel = computed(() => {
     <!-- Time display -->
     <div class="absolute inset-0 flex items-center justify-center">
       <span
-        class="font-display text-[46px] font-medium text-(--text-primary) tabular-nums"
-        style="letter-spacing: -1.5px;"
+        class="font-display font-medium text-(--text-primary) tabular-nums"
+        :style="{ fontSize, letterSpacing: '-1.5px' }"
       >
         {{ displayTime }}
       </span>
@@ -195,7 +210,7 @@ const modeLabel = computed(() => {
     <!-- Progress dots -->
     <div
       class="absolute left-1/2 -translate-x-1/2 flex items-center gap-1.5"
-      style="top: 165px;"
+      :style="{ top: dotsTop }"
     >
       <div
         v-for="i in totalSessions"

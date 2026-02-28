@@ -15,13 +15,13 @@ const buttons: { name: PanelName, icon: string, color: string, activeColor: stri
   <div class="glass-bar flex items-center gap-1 px-2 py-1.5 rounded-xl border border-(--border-subtle)">
     <UIcon
       name="i-lucide-grip-horizontal"
-      class="text-(--text-dimmer) w-4 h-4 cursor-grab mx-1"
+      class="text-(--text-dimmer) w-4 h-4 cursor-grab mx-1 hidden lg:block"
     />
-    <div class="w-px h-5 bg-(--border-subtle) mx-1" />
+    <div class="w-px h-5 bg-(--border-subtle) mx-1 hidden lg:block" />
     <button
       v-for="btn in buttons"
       :key="btn.name"
-      class="w-8 h-8 flex items-center justify-center rounded-lg transition-all"
+      class="w-10 h-10 lg:w-8 lg:h-8 flex items-center justify-center rounded-lg transition-all"
       :style="{
         backgroundColor: panels[btn.name] ? btn.activeColor : 'transparent',
         color: panels[btn.name] ? btn.color : 'var(--text-dimmer)'

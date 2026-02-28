@@ -14,7 +14,7 @@ defineEmits<{
   <div class="flex items-center gap-2 w-full">
     <UIcon
       name="i-lucide-grip-horizontal"
-      class="text-(--text-dimmer) w-3.5 h-3.5 cursor-grab shrink-0"
+      class="text-(--text-dimmer) w-3.5 h-3.5 cursor-grab shrink-0 hidden lg:block"
     />
     <div class="flex items-center gap-2 flex-1 min-w-0">
       <UIcon

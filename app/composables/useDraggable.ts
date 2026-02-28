@@ -1,6 +1,7 @@
 const NAVBAR_HEIGHT = 68
 
 export function useDraggable(handleSelector = '.cursor-grab') {
+  const { isMobile } = useIsMobile()
   const isDetached = ref(false)
   const isDragging = ref(false)
   const elementRef = ref<HTMLElement | null>(null)
@@ -14,6 +15,8 @@ export function useDraggable(handleSelector = '.cursor-grab') {
   let placeholder: HTMLElement | null = null
 
   function onPointerDown(e: PointerEvent) {
+    if (isMobile.value) return
+
     const handle = (e.target as HTMLElement).closest(handleSelector)
     if (!handle) return
 

@@ -96,6 +96,13 @@
   background-color: var(--text-dimmer);
 }
 
+/* --- UEditor toolbar separator fix (Chrome renders default border as white) --- */
+.daily-editor [role="separator"],
+.zen-editor [role="separator"] {
+  border-color: var(--border-subtle) !important;
+  background-color: var(--border-subtle);
+}
+
 /* --- UEditor transparent styling for glass panels --- */
 .daily-editor [contenteditable="true"] {
   background: transparent !important;
@@ -243,4 +250,38 @@
 
 .zen-editor [contenteditable="true"] ul[data-type="taskList"] li label input[type="checkbox"] {
   accent-color: var(--accent-green);
+}
+
+/* --- Mobile panel sheet transitions --- */
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: transform 0.3s ease;
+}
+
+.slide-up-enter-from,
+.slide-up-leave-to {
+  transform: translateY(100%);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.25s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* --- Mobile editor height --- */
+@media (max-width: 1023px) {
+  .daily-editor [contenteditable="true"] {
+    max-height: 50vh;
+  }
+}
+
+@layer utilities {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
 }

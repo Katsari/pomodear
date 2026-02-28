@@ -8,7 +8,7 @@ function onMusicInput(e: Event) {
 </script>
 
 <template>
-  <div class="glass w-[300px] rounded-[20px] border border-(--border-subtle) flex flex-col gap-5 p-5 shadow-xl">
+  <div class="glass w-full lg:w-[300px] rounded-[20px] border border-(--border-subtle) flex flex-col gap-5 p-5 shadow-xl">
     <PanelHeader
       title="Music & Ambiance"
       icon="i-lucide-music"

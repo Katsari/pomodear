@@ -21,7 +21,7 @@ const backgrounds = [
     description="Configure timer, username, and background"
     :close="true"
     :ui="{
-      content: 'bg-(--bg-surface) border border-(--border-subtle) rounded-2xl max-w-md',
+      content: 'bg-(--bg-surface) border border-(--border-subtle) rounded-2xl max-w-md ring-0',
       header: 'border-b border-(--border-subtle)',
       title: 'font-display text-lg font-semibold text-(--text-primary)',
       description: 'sr-only',
@@ -92,7 +92,7 @@ const backgrounds = [
       <!-- Background selector -->
       <div class="flex flex-col gap-2">
         <label class="text-xs text-(--text-dim) font-medium">Background</label>
-        <div class="grid grid-cols-4 gap-2">
+        <div class="grid grid-cols-3 lg:grid-cols-4 gap-2">
           <button
             v-for="bg in backgrounds"
             :key="bg.key"

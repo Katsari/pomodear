@@ -15,7 +15,8 @@ export default defineNuxtConfig({
       htmlAttrs: { lang: 'en' },
       meta: [
         { name: 'description', content: 'A cozy Pomodoro timer with ambient sounds, music playback, task tracking, and daily notes — stay focused in style.' },
-        { name: 'theme-color', content: '#E08228' }
+        { name: 'theme-color', content: '#E08228' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' }
       ],
       link: [
         { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
