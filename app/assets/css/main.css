@@ -60,37 +60,30 @@
 }
 @utility glass {
   backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
   background-color: #22201db0;
 }
 @utility glass-warm {
   backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
   background-color: #302520D8;
 }
 @utility glass-functional {
   backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
   background-color: #22201DD0;
 }
 @utility glass-writing {
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   background-color: #22201D90;
 }
 @utility glass-accent {
   backdrop-filter: blur(32px);
-  -webkit-backdrop-filter: blur(32px);
   background-color: #22201D60;
 }
 @utility glass-nav {
   backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
   background-color: #1A1916CC;
 }
 @utility glass-bar {
   backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
   background-color: #2A2724D0;
 }
 @utility scrollbar-glass {
