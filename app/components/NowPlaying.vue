@@ -10,7 +10,7 @@ const showList = ref(false)
 </script>
 
 <template>
-  <div class="rounded-2xl bg-(--bg-surface) p-4 flex flex-col gap-3">
+  <div class="rounded-xl bg-(--bg-surface) p-4 flex flex-col gap-3">
     <!-- Track info + list toggle -->
     <div class="flex items-start justify-between gap-2">
       <div class="min-w-0">

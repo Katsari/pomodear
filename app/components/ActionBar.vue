@@ -2,6 +2,8 @@
 import type { PanelName } from '~/types'
 
 const { panels, togglePanel } = usePanels()
+const { activeAmbients } = useAudio()
+const { isMobile } = useIsMobile()
 
 const buttons: { name: PanelName, icon: string, color: string, activeColor: string }[] = [
   { name: 'music', icon: 'i-lucide-music', color: '#7EADD4', activeColor: 'rgba(126,173,212,0.15)' },
@@ -21,7 +23,7 @@ const buttons: { name: PanelName, icon: string, color: string, activeColor: stri
     <button
       v-for="btn in buttons"
       :key="btn.name"
-      class="w-10 h-10 lg:w-8 lg:h-8 flex items-center justify-center rounded-lg transition-all"
+      class="relative w-10 h-10 lg:w-8 lg:h-8 flex items-center justify-center rounded-lg transition-all"
       :style="{
         backgroundColor: panels[btn.name] ? btn.activeColor : 'transparent',
         color: panels[btn.name] ? btn.color : 'var(--text-dimmer)'
@@ -31,6 +33,11 @@ const buttons: { name: PanelName, icon: string, color: string, activeColor: stri
       <UIcon
         :name="btn.icon"
         class="w-4 h-4"
+      />
+      <!-- Ambient activity dot (mobile only, music button only) -->
+      <span
+        v-if="isMobile && btn.name === 'music' && activeAmbients.length > 0"
+        class="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-(--accent-primary)"
       />
     </button>
   </div>

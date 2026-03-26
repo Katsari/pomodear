@@ -7,6 +7,7 @@ const _currentSession = ref(1)
 const _timeRemaining = ref(25 * 60)
 const _isRunning = ref(false)
 let _intervalId: ReturnType<typeof setInterval> | null = null
+let _endTime = 0 // Absolute timestamp when timer should complete
 
 export function useTimer() {
   const { timerSettings } = useSettings()
@@ -29,6 +30,13 @@ export function useTimer() {
         _timeRemaining.value = durationForMode.value
       }
     }, { deep: true })
+
+    // Recover timer when tab becomes visible again
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && _isRunning.value) {
+        tick()
+      }
+    })
   }
 
   const totalSessions = computed(() => timerSettings.value.sessionsBeforeLong)
@@ -59,9 +67,19 @@ export function useTimer() {
     }
   }
 
-  function setMode(mode: TimerMode) {
+  function setMode(mode: TimerMode, { advanceSession = false } = {}) {
     clearTimer()
     _isRunning.value = false
+
+    // Advance session counter when transitioning from focus to break
+    if (advanceSession && _currentMode.value === 'focus' && mode !== 'focus') {
+      if (_currentSession.value >= totalSessions.value) {
+        _currentSession.value = 1
+      } else {
+        _currentSession.value++
+      }
+    }
+
     _currentMode.value = mode
     _timeRemaining.value = (() => {
       switch (mode) {
@@ -80,37 +98,49 @@ export function useTimer() {
     const { playBell } = useAudio()
     playBell()
 
+    // Record completed session
+    const { recordSession } = useStatistics()
     if (_currentMode.value === 'focus') {
-      if (_currentSession.value >= totalSessions.value) {
-        setMode('longBreak')
-        _currentSession.value = 1
-      } else {
-        const nextSession = _currentSession.value + 1
-        setMode('break')
-        _currentSession.value = nextSession
-      }
+      recordSession(timerSettings.value.focusDuration * 60, 'focus')
+    } else if (_currentMode.value === 'break') {
+      recordSession(timerSettings.value.breakDuration * 60, 'shortBreak')
+    } else {
+      recordSession(timerSettings.value.longBreakDuration * 60, 'longBreak')
+    }
+
+    if (_currentMode.value === 'focus') {
+      const isLong = _currentSession.value >= totalSessions.value
+      setMode(isLong ? 'longBreak' : 'break', { advanceSession: true })
     } else {
       setMode('focus')
     }
   }
 
   function tick() {
-    if (_timeRemaining.value <= 0) {
+    const remaining = Math.round((_endTime - Date.now()) / 1000)
+    if (remaining <= 0) {
+      _timeRemaining.value = 0
       onTimerComplete()
       return
     }
-    _timeRemaining.value--
+    _timeRemaining.value = remaining
   }
 
   function start() {
     if (_isRunning.value) return
     _isRunning.value = true
+    _endTime = Date.now() + _timeRemaining.value * 1000
     _intervalId = setInterval(tick, 1000)
   }
 
   function pause() {
     clearTimer()
     _isRunning.value = false
+    // Sync remaining time from the clock one last time
+    if (_endTime > 0) {
+      const remaining = Math.round((_endTime - Date.now()) / 1000)
+      _timeRemaining.value = Math.max(0, remaining)
+    }
   }
 
   function togglePlay() {

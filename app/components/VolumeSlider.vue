@@ -13,19 +13,14 @@ function onInput(e: Event) {
       :name="ambientVolume > 0 ? 'i-lucide-volume-2' : 'i-lucide-volume-x'"
       class="w-3.5 h-3.5 text-(--text-dim) shrink-0"
     />
-    <div class="flex-1 relative h-5 flex items-center">
-      <div class="w-full h-1 rounded-full bg-(--border-subtle) overflow-hidden">
-        <div
-          class="h-full rounded-full bg-(--accent-green)"
-          :style="{ width: `${ambientVolume}%` }"
-        />
-      </div>
+    <div class="flex-1">
       <input
         type="range"
         min="0"
         max="100"
         :value="ambientVolume"
-        class="absolute inset-0 w-full opacity-0 cursor-pointer"
+        class="slider-input slider-green w-full"
+        :style="{ '--slider-percent': `${ambientVolume}%` }"
         @input="onInput"
       >
     </div>

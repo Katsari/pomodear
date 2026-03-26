@@ -23,6 +23,11 @@ const { isMobile } = useIsMobile()
     >
       <TimerRing :size="170" />
       <TimerControls />
+
+      <!-- Mobile: now playing mini -->
+      <div class="flex flex-col items-center gap-3 mt-4 px-6">
+        <MiniNowPlaying />
+      </div>
     </div>
   </div>
 </template>

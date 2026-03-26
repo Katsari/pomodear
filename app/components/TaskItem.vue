@@ -46,7 +46,7 @@ function onEditKeydown(e: KeyboardEvent) {
 
 <template>
   <div
-    class="group flex items-center gap-2.5 w-full px-3 py-2 rounded-[10px] bg-(--bg-surface) hover:bg-(--bg-surface-dark) transition-colors"
+    class="group flex items-center gap-2.5 w-full px-3 py-2 rounded-lg bg-(--bg-surface) hover:bg-(--bg-surface-dark) transition-colors"
   >
     <!-- Drag handle (only for incomplete tasks) -->
     <UIcon
@@ -87,8 +87,8 @@ function onEditKeydown(e: KeyboardEvent) {
     >
     <span
       v-else
-      class="text-sm flex-1 truncate transition-colors cursor-text"
-      :class="task.completed ? 'text-(--text-dim) line-through' : 'text-(--text-primary)'"
+      class="text-sm flex-1 truncate cursor-text transition-all duration-300"
+      :class="task.completed ? 'text-(--text-dim) line-through decoration-(--text-dimmer)' : 'text-(--text-primary)'"
       @click="startEdit"
     >
       {{ task.text }}

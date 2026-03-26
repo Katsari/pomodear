@@ -6,6 +6,33 @@ const showSettings = ref(false)
 
 const { showShortcuts } = useKeyboardShortcuts()
 
+const sheetEl = ref<HTMLElement | null>(null)
+const dragStartY = ref(0)
+const dragOffset = ref(0)
+const isDragging = ref(false)
+
+function onDragStart(e: PointerEvent) {
+  isDragging.value = true
+  dragStartY.value = e.clientY
+  dragOffset.value = 0
+  ;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
+}
+
+function onDragMove(e: PointerEvent) {
+  if (!isDragging.value) return
+  const dy = e.clientY - dragStartY.value
+  dragOffset.value = Math.max(0, dy)
+}
+
+function onDragEnd() {
+  if (!isDragging.value) return
+  isDragging.value = false
+  if (dragOffset.value > 80) {
+    closeAllPanels()
+  }
+  dragOffset.value = 0
+}
+
 const backgrounds: Record<string, string> = {
   'dragon-shrine': '/images/dragon_shrine.webp',
   'sensei': '/images/sensei.webp',
@@ -17,24 +44,13 @@ const backgrounds: Record<string, string> = {
   'benny-cafe': '/images/benny_cafe.webp'
 }
 
-const backgroundSrc = computed(() => backgrounds[selectedBackground.value] ?? backgrounds['dragon-shrine'])
+const backgroundSrc = computed(() => backgrounds[selectedBackground.value] ?? '/images/dragon_shrine.webp')
 </script>
 
 <template>
   <div class="relative w-screen h-screen overflow-hidden">
     <!-- Background layers -->
-    <div class="absolute inset-0">
-      <img
-        :src="backgroundSrc"
-        alt=""
-        class="absolute inset-0 w-full h-full object-cover object-[center_50%]"
-        loading="eager"
-      >
-      <div
-        class="absolute inset-0"
-        style="background-color: rgba(62, 26, 10, 0.20);"
-      />
-    </div>
+    <BackgroundLayer :src="backgroundSrc" />
 
     <!-- App content -->
     <div class="relative z-10 flex flex-col h-full">
@@ -73,7 +89,7 @@ const backgroundSrc = computed(() => backgrounds[selectedBackground.value] ?? ba
         <TimerArea />
 
         <!-- Right: Tasks + Daily Note (desktop only) -->
-        <div class="hidden lg:flex w-[440px] shrink-0 flex-col gap-3 min-h-0 overflow-y-auto scrollbar-glass">
+        <div class="hidden lg:flex w-[480px] shrink-0 flex-col gap-4 min-h-0 overflow-y-auto scrollbar-glass">
           <Transition name="slide-right">
             <DraggableWrapper v-if="panels.tasks">
               <TasksPanel />
@@ -107,14 +123,23 @@ const backgroundSrc = computed(() => backgrounds[selectedBackground.value] ?? ba
         />
       </Transition>
       <!-- Sheet -->
-      <Transition name="slide-up">
+      <Transition
+        name="slide-up"
+        @after-leave="dragOffset = 0"
+      >
         <div
           v-if="isMobile && activeMobilePanel"
+          ref="sheetEl"
           class="fixed inset-x-0 bottom-0 z-50 max-h-[80vh] rounded-t-2xl overflow-hidden"
+          :style="dragOffset > 0 ? { transform: `translateY(${dragOffset}px)`, transition: isDragging ? 'none' : 'transform 0.25s ease' } : {}"
         >
-          <!-- Drag indicator / close tap -->
+          <!-- Drag handle -->
           <div
-            class="sticky top-0 z-10 flex justify-center py-2 glass-nav border-t border-x border-(--border-subtle) rounded-t-2xl"
+            class="sticky top-0 z-10 flex justify-center py-2 glass-nav border-t border-x border-(--border-subtle) rounded-t-2xl touch-none cursor-grab active:cursor-grabbing"
+            @pointerdown="onDragStart"
+            @pointermove="onDragMove"
+            @pointerup="onDragEnd"
+            @pointercancel="onDragEnd"
             @click="closeAllPanels"
           >
             <div class="w-10 h-1 rounded-full bg-(--text-dimmer)" />
@@ -142,7 +167,7 @@ const backgroundSrc = computed(() => backgrounds[selectedBackground.value] ?? ba
     </Teleport>
 
     <!-- Modals -->
-    <SettingsModal v-model="showSettings" />
+    <SettingsPanel v-model="showSettings" />
     <ShortcutsModal v-model="showShortcuts" />
   </div>
 </template>
@@ -152,7 +177,7 @@ const backgroundSrc = computed(() => backgrounds[selectedBackground.value] ?? ba
 .slide-left-leave-active,
 .slide-right-enter-active,
 .slide-right-leave-active {
-  transition: all 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .slide-left-enter-from,

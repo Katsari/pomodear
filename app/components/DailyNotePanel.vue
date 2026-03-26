@@ -26,6 +26,19 @@ const { closePanel } = usePanels()
 const activeTab = ref<'plan' | 'write'>('plan')
 const isZenMode = ref(false)
 const copied = ref(false)
+const showToolbar = ref(false)
+let toolbarHideTimer: ReturnType<typeof setTimeout> | null = null
+
+function onEditorFocusIn() {
+  if (toolbarHideTimer) clearTimeout(toolbarHideTimer)
+  showToolbar.value = true
+}
+
+function onEditorFocusOut() {
+  toolbarHideTimer = setTimeout(() => {
+    showToolbar.value = false
+  }, 200)
+}
 
 // Template ref for accessing editor instance (for timestamp insertion)
 const planEditorRef = ref()
@@ -102,7 +115,7 @@ if (import.meta.client) {
 </script>
 
 <template>
-  <div class="glass rounded-2xl border border-(--border-subtle) flex flex-col gap-3 p-4 shadow-lg">
+  <div class="glass-writing rounded-2xl border border-(--border-subtle) flex flex-col gap-3 p-4 shadow-lg">
     <PanelHeader
       title="Daily Note"
       icon="i-lucide-notebook-pen"
@@ -183,7 +196,9 @@ if (import.meta.client) {
     <!-- Editor (hidden when zen mode is active to prevent dual-editor sync conflicts) -->
     <div
       v-if="!isZenMode"
-      class="daily-editor rounded-[10px] bg-(--bg-surface) p-3"
+      class="daily-editor rounded-xl bg-(--bg-surface) p-3"
+      @focusin="onEditorFocusIn"
+      @focusout="onEditorFocusOut"
     >
       <UEditor
         v-if="activeTab === 'plan'"
@@ -192,17 +207,20 @@ if (import.meta.client) {
         :key="`plan-${noteData.date}`"
         :model-value="noteData.plan"
         content-type="markdown"
+        placeholder="What does a good day look like?"
         :extensions="editorExtensions"
         :image="false"
         :mention="false"
         :ui="{ root: 'border-0 bg-transparent shadow-none ring-0', content: 'p-0', base: 'sm:px-0' }"
         @update:model-value="onPlanUpdate"
       >
-        <UEditorToolbar
-          v-if="editor"
-          :editor="editor"
-          :items="toolbarItems"
-        />
+        <Transition name="toolbar-slide">
+          <UEditorToolbar
+            v-if="editor && showToolbar"
+            :editor="editor"
+            :items="toolbarItems"
+          />
+        </Transition>
       </UEditor>
       <UEditor
         v-else
@@ -210,18 +228,20 @@ if (import.meta.client) {
         :key="`write-${noteData.date}`"
         :model-value="noteData.write"
         content-type="markdown"
-        placeholder="Start writing..."
+        placeholder="Free-write, reflect, or brainstorm..."
         :extensions="editorExtensions"
         :image="false"
         :mention="false"
         :ui="{ root: 'border-0 bg-transparent shadow-none ring-0', content: 'p-0', base: 'sm:px-0' }"
         @update:model-value="onWriteUpdate"
       >
-        <UEditorToolbar
-          v-if="editor"
-          :editor="editor"
-          :items="toolbarItems"
-        />
+        <Transition name="toolbar-slide">
+          <UEditorToolbar
+            v-if="editor && showToolbar"
+            :editor="editor"
+            :items="toolbarItems"
+          />
+        </Transition>
       </UEditor>
     </div>
 
@@ -394,5 +414,16 @@ if (import.meta.client) {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+.toolbar-slide-enter-active,
+.toolbar-slide-leave-active {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  transform-origin: top;
+}
+.toolbar-slide-enter-from,
+.toolbar-slide-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
 }
 </style>

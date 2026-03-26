@@ -6,7 +6,7 @@ const { isRunning, togglePlay, skip, restart } = useTimer()
   <div class="flex items-center gap-3">
     <!-- Skip back -->
     <button
-      class="w-9 h-9 flex items-center justify-center rounded-lg bg-[#252320] text-[#B0AEA9] hover:text-(--text-secondary) transition-all"
+      class="w-9 h-9 flex items-center justify-center rounded-lg bg-[#252320] text-[#B0AEA9] hover:text-(--text-secondary) transition-all active:scale-95"
       @click="restart"
     >
       <UIcon
@@ -17,7 +17,8 @@ const { isRunning, togglePlay, skip, restart } = useTimer()
 
     <!-- Play / Pause -->
     <button
-      class="w-11 h-11 flex items-center justify-center rounded-xl text-white transition-all hover:scale-105"
+      class="w-11 h-11 flex items-center justify-center rounded-xl text-white transition-all hover:scale-105 active:scale-[0.97]"
+      :class="isRunning ? 'play-btn-pulse' : ''"
       style="background: linear-gradient(180deg, #E08228, #C06A1A); box-shadow: 0 4px 20px #E0822840;"
       @click="togglePlay"
     >
@@ -30,7 +31,7 @@ const { isRunning, togglePlay, skip, restart } = useTimer()
 
     <!-- Skip forward -->
     <button
-      class="w-9 h-9 flex items-center justify-center rounded-lg bg-[#252320] text-[#B0AEA9] hover:text-(--text-secondary) transition-all"
+      class="w-9 h-9 flex items-center justify-center rounded-lg bg-[#252320] text-[#B0AEA9] hover:text-(--text-secondary) transition-all active:scale-95"
       @click="skip"
     >
       <UIcon
@@ -40,3 +41,14 @@ const { isRunning, togglePlay, skip, restart } = useTimer()
     </button>
   </div>
 </template>
+
+<style scoped>
+@keyframes play-pulse {
+  0%, 100% { box-shadow: 0 4px 20px #E0822840; }
+  50% { box-shadow: 0 4px 28px #E0822860; }
+}
+
+.play-btn-pulse {
+  animation: play-pulse 3s ease-in-out infinite;
+}
+</style>

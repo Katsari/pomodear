@@ -25,8 +25,20 @@ const sounds: { id: AmbientSound, icon: string, label: string }[] = [
       <UIcon
         :name="sound.icon"
         class="w-4 h-4"
+        :class="isAmbientActive(sound.id) ? 'ambient-breathe' : ''"
       />
       <span class="text-[10px] font-medium">{{ sound.label }}</span>
     </button>
   </div>
 </template>
+
+<style scoped>
+@keyframes breathe {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.92); }
+}
+
+.ambient-breathe {
+  animation: breathe 3s ease-in-out infinite;
+}
+</style>

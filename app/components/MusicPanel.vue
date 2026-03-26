@@ -8,7 +8,7 @@ function onMusicInput(e: Event) {
 </script>
 
 <template>
-  <div class="glass w-full lg:w-[300px] rounded-[20px] border border-(--border-subtle) flex flex-col gap-5 p-5 shadow-xl">
+  <div class="glass-warm w-full lg:w-[300px] rounded-2xl border border-[#C4813A20] flex flex-col gap-5 p-5 shadow-xl">
     <PanelHeader
       title="Music & Ambiance"
       icon="i-lucide-music"
@@ -27,19 +27,14 @@ function onMusicInput(e: Event) {
           name="i-lucide-music"
           class="w-3.5 h-3.5 text-(--text-dim) shrink-0"
         />
-        <div class="flex-1 relative h-5 flex items-center">
-          <div class="w-full h-1 rounded-full bg-(--border-subtle) overflow-hidden">
-            <div
-              class="h-full rounded-full bg-(--accent-blue)"
-              :style="{ width: `${musicVolume}%` }"
-            />
-          </div>
+        <div class="flex-1">
           <input
             type="range"
             min="0"
             max="100"
             :value="musicVolume"
-            class="absolute inset-0 w-full opacity-0 cursor-pointer"
+            class="slider-input slider-blue w-full"
+            :style="{ '--slider-percent': `${musicVolume}%` }"
             @input="onMusicInput"
           >
         </div>

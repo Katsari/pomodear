@@ -23,7 +23,7 @@ function preventNewline(e: KeyboardEvent) {
 </script>
 
 <template>
-  <div class="glass rounded-2xl border border-(--border-subtle) flex flex-col gap-2.5 p-4 shadow-lg">
+  <div class="glass-accent rounded-2xl border border-(--border-subtle)/50 flex flex-col gap-2.5 p-4 shadow-sm">
     <PanelHeader
       title="Daily Quote"
       icon="i-lucide-sparkles"
@@ -32,7 +32,8 @@ function preventNewline(e: KeyboardEvent) {
     />
 
     <div
-      class="rounded-xl p-3.5 flex flex-col gap-2"
+      :key="currentQuote.text"
+      class="rounded-xl p-3.5 flex flex-col gap-2 quote-fade-in"
       style="background: linear-gradient(180deg, #C4813A12, #7C907008); border: 1px solid #C4813A18;"
     >
       <UIcon
@@ -60,3 +61,14 @@ function preventNewline(e: KeyboardEvent) {
     </div>
   </div>
 </template>
+
+<style scoped>
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.quote-fade-in {
+  animation: fade-in-up 0.4s ease-out;
+}
+</style>

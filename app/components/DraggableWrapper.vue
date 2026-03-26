@@ -5,7 +5,7 @@ const { elementRef, style, isDragging } = useDraggable()
 <template>
   <div
     ref="elementRef"
-    :style="style"
+    :style="[style, { willChange: 'transform' }]"
     :class="{ 'select-none': isDragging }"
   >
     <slot />

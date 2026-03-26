@@ -1,22 +1,22 @@
 import type { AmbientSound, AudioTrack } from '~/types'
 
 const playlist: AudioTrack[] = [
-  { title: 'Sweet September', artist: 'Arulo', src: '/audio/music/sweet-september.mp3', duration: 99 },
-  { title: 'Sleepy Cat', artist: 'A. M.', src: '/audio/music/sleepy-cat.mp3', duration: 119 },
-  { title: 'Tokyo Sunset', artist: 'HoliznaCC0', src: '/audio/music/tokyo-sunset.mp3', duration: 138 },
-  { title: 'Lucid', artist: 'HoliznaCC0', src: '/audio/music/lucid.mp3', duration: 150 },
-  { title: 'Moon Unit', artist: 'HoliznaCC0', src: '/audio/music/moon-unit.mp3', duration: 162 },
-  { title: 'Shimmer', artist: 'HoliznaCC0', src: '/audio/music/shimmer.mp3', duration: 144 },
-  { title: 'Morning Coffee', artist: 'HoliznaCC0', src: '/audio/music/morning-coffee.mp3', duration: 191 },
-  { title: 'Creature Comforts', artist: 'HoliznaCC0', src: '/audio/music/creature-comforts.mp3', duration: 174 },
-  { title: 'Autumn', artist: 'HoliznaCC0', src: '/audio/music/autumn.mp3', duration: 169 }
+  { title: 'Sweet September', artist: 'Arulo', src: '/audio/music/sweet-september.ogg', duration: 99 },
+  { title: 'Sleepy Cat', artist: 'A. M.', src: '/audio/music/sleepy-cat.ogg', duration: 119 },
+  { title: 'Tokyo Sunset', artist: 'HoliznaCC0', src: '/audio/music/tokyo-sunset.ogg', duration: 138 },
+  { title: 'Lucid', artist: 'HoliznaCC0', src: '/audio/music/lucid.ogg', duration: 150 },
+  { title: 'Moon Unit', artist: 'HoliznaCC0', src: '/audio/music/moon-unit.ogg', duration: 162 },
+  { title: 'Shimmer', artist: 'HoliznaCC0', src: '/audio/music/shimmer.ogg', duration: 144 },
+  { title: 'Morning Coffee', artist: 'HoliznaCC0', src: '/audio/music/morning-coffee.ogg', duration: 191 },
+  { title: 'Creature Comforts', artist: 'HoliznaCC0', src: '/audio/music/creature-comforts.ogg', duration: 174 },
+  { title: 'Autumn', artist: 'HoliznaCC0', src: '/audio/music/autumn.ogg', duration: 169 }
 ]
 
 const AMBIENT_FILES: Record<AmbientSound, string> = {
-  rain: '/audio/ambient/gentle-rain.mp3',
-  fireplace: '/audio/ambient/fireplace.mp3',
-  forest: '/audio/ambient/forest.mp3',
-  ocean: '/audio/ambient/ocean.mp3'
+  rain: '/audio/ambient/gentle-rain.ogg',
+  fireplace: '/audio/ambient/fireplace.ogg',
+  forest: '/audio/ambient/forest.ogg',
+  ocean: '/audio/ambient/ocean.ogg'
 }
 
 // Singleton state
@@ -101,22 +101,67 @@ export function useAudio() {
     _progressRaf = requestAnimationFrame(updateProgress)
 
     // React to volume changes
-    watch(() => _musicVolume!.value, applyVolumes, { immediate: true })
-    watch(() => _ambientVolume!.value, applyVolumes)
-
-    // React to ambient volume changes
-    watch(() => _ambientVolumes!.value, (vols) => {
-      applyVolumes()
-      for (const [key, audio] of Object.entries(_ambientAudios!)) {
-        const vol = vols[key as AmbientSound]
-        if (vol > 0 && audio.paused) {
-          audio.play().catch(() => {})
-        } else if (vol === 0 && !audio.paused) {
-          audio.pause()
-          audio.currentTime = 0
-        }
+    watch(() => _musicVolume!.value, () => {
+      if (_musicAudio) {
+        _musicAudio.volume = _musicVolume!.value / 100
       }
-    }, { deep: true, immediate: true })
+    }, { immediate: true })
+
+    watch(() => _ambientVolume!.value, applyAmbientVolumes, { immediate: true })
+
+    // React to per-sound ambient volume changes (play/pause sounds)
+    watch(() => _ambientVolumes!.value, () => {
+      applyAmbientVolumes()
+      syncAmbientPlayback()
+    }, { deep: true })
+
+    // On first user interaction after page load, resume any ambient sounds
+    // that were persisted but blocked by browser autoplay policy.
+    // Must be a direct event listener (not a watcher) so the browser
+    // treats audio.play() as triggered by a user gesture.
+    const resumeAmbient = () => {
+      applyAmbientVolumes()
+      syncAmbientPlayback()
+      document.removeEventListener('pointerdown', resumeAmbient)
+    }
+    document.addEventListener('pointerdown', resumeAmbient)
+
+    // When tab becomes visible, re-sync ambient playback
+    // (browsers may suspend audio when tab is backgrounded)
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        syncAmbientPlayback()
+      }
+    })
+  }
+
+  /**
+   * Ensure each ambient sound's play/pause state matches its volume setting.
+   * Sounds with volume > 0 should be playing; sounds at 0 should be paused.
+   */
+  function syncAmbientPlayback() {
+    if (!_ambientAudios || !_ambientVolumes) return
+    for (const [key, audio] of Object.entries(_ambientAudios)) {
+      const vol = _ambientVolumes.value[key as AmbientSound]
+      if (vol > 0 && audio.paused) {
+        audio.play().catch(() => {})
+      } else if (vol === 0 && !audio.paused) {
+        audio.pause()
+        audio.currentTime = 0
+      }
+    }
+  }
+
+  /**
+   * Apply the computed volume (master * per-sound) to each ambient element.
+   */
+  function applyAmbientVolumes() {
+    if (!_ambientAudios || !_ambientVolumes || !_ambientVolume) return
+    const master = _ambientVolume.value / 100
+    for (const [key, audio] of Object.entries(_ambientAudios)) {
+      const perSound = _ambientVolumes.value[key as AmbientSound] / 100
+      audio.volume = Math.min(1, master * perSound)
+    }
   }
 
   function onTrackEnded() {
@@ -158,20 +203,6 @@ export function useAudio() {
     return next
   }
 
-  function applyVolumes() {
-    if (_musicAudio) {
-      _musicAudio.volume = _musicVolume!.value / 100
-    }
-
-    if (_ambientAudios && _ambientVolumes) {
-      const ambientMaster = _ambientVolume!.value / 100
-      for (const [key, audio] of Object.entries(_ambientAudios)) {
-        const perSound = _ambientVolumes.value[key as AmbientSound] / 100
-        audio.volume = Math.min(1, ambientMaster * perSound)
-      }
-    }
-  }
-
   function loadTrack(index: number) {
     if (!_musicAudio) return
     const track = playlist[index]
@@ -204,7 +235,8 @@ export function useAudio() {
       _musicAudio.play().catch(() => {})
       _isPlaying.value = true
     }
-    applyVolumes()
+    // Any user-initiated action is a chance to resume blocked ambient sounds
+    syncAmbientPlayback()
   }
 
   function playTrack(index: number) {
@@ -212,7 +244,7 @@ export function useAudio() {
     _currentTrackIndex.value = index
     loadAndPlayCurrent()
     _isPlaying.value = true
-    applyVolumes()
+    syncAmbientPlayback()
   }
 
   function nextTrack() {
@@ -266,6 +298,9 @@ export function useAudio() {
     } else {
       _ambientVolumes!.value[sound] = 50
     }
+    // Sync immediately within the user gesture so browsers allow playback
+    applyAmbientVolumes()
+    syncAmbientPlayback()
   }
 
   function isAmbientActive(sound: AmbientSound) {

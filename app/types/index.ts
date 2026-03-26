@@ -31,3 +31,13 @@ export interface DailyNote {
 }
 
 export type PanelName = 'music' | 'tasks' | 'dailyNote' | 'quote'
+
+export interface SessionRecord {
+  id: string
+  date: string // YYYY-MM-DD
+  startTime: number // unix ms
+  duration: number // seconds
+  type: 'focus' | 'shortBreak' | 'longBreak'
+}
+
+export type TimeRange = 'today' | 'week' | 'month'

@@ -73,7 +73,7 @@ function handleAdd() {
 </script>
 
 <template>
-  <div class="glass rounded-2xl border border-(--border-subtle) flex flex-col gap-3 p-4 shadow-lg">
+  <div class="glass-functional rounded-xl border border-(--border-subtle) flex flex-col gap-3 p-4 shadow-md">
     <PanelHeader
       title="Tasks"
       icon="i-lucide-square-check-big"
@@ -89,7 +89,7 @@ function handleAdd() {
 
     <!-- Always-visible add input -->
     <form
-      class="flex items-center gap-2 px-3 py-2 rounded-[10px] bg-(--bg-surface)"
+      class="flex items-center gap-2 px-3 py-2 rounded-lg bg-(--bg-surface)"
       @submit.prevent="handleAdd"
     >
       <input
@@ -138,12 +138,18 @@ function handleAdd() {
       </div>
     </div>
 
-    <p
+    <div
       v-if="!tasks.length"
-      class="text-xs text-(--text-dimmer) py-3 text-center"
+      class="flex flex-col items-center gap-2 py-6"
     >
-      No tasks yet. Type above and press Enter.
-    </p>
+      <UIcon
+        name="i-lucide-list-checks"
+        class="w-8 h-8 text-(--text-dimmer)/60"
+      />
+      <p class="text-xs text-(--text-dimmer) text-center leading-relaxed">
+        A clean slate.<br>What will you focus on today?
+      </p>
+    </div>
 
     <!-- Resize handle (desktop only) -->
     <div

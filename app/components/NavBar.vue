@@ -38,7 +38,7 @@ const modes: { mode: TimerMode, label: string, icon: string }[] = [
         :class="currentMode === m.mode
           ? 'bg-(--accent-primary) text-white'
           : 'text-(--text-dim) hover:text-(--text-secondary)'"
-        @click="setMode(m.mode)"
+        @click="setMode(m.mode, { advanceSession: true })"
       >
         <UIcon
           :name="m.icon"
@@ -48,15 +48,26 @@ const modes: { mode: TimerMode, label: string, icon: string }[] = [
       </button>
     </div>
 
-    <!-- Right: Settings (absolute) -->
-    <button
-      class="absolute right-3 lg:right-8 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center rounded-lg text-(--text-dim) hover:text-(--text-secondary) hover:bg-(--bg-surface) transition-all"
-      @click="showSettings = true"
-    >
-      <UIcon
-        name="i-lucide-settings"
-        class="w-5 h-5"
-      />
-    </button>
+    <!-- Right: Stats + Settings (absolute) -->
+    <div class="absolute right-3 lg:right-8 top-1/2 -translate-y-1/2 flex items-center gap-1">
+      <NuxtLink
+        to="/stats"
+        class="w-9 h-9 flex items-center justify-center rounded-lg text-(--text-dim) hover:text-(--text-secondary) hover:bg-(--bg-surface) transition-all"
+      >
+        <UIcon
+          name="i-lucide-bar-chart-2"
+          class="w-5 h-5"
+        />
+      </NuxtLink>
+      <button
+        class="w-9 h-9 flex items-center justify-center rounded-lg text-(--text-dim) hover:text-(--text-secondary) hover:bg-(--bg-surface) transition-all"
+        @click="showSettings = true"
+      >
+        <UIcon
+          name="i-lucide-settings"
+          class="w-5 h-5"
+        />
+      </button>
+    </div>
   </nav>
 </template>
