@@ -1,11 +1,6 @@
 export default defineNuxtConfig({
   modules: ['@nuxt/eslint', '@nuxt/ui', '@nuxtjs/google-fonts', 'nuxt-skill-hub', '@vite-pwa/nuxt'],
 
-  skillHub: {
-    targets: ['claude-code'],
-    generationMode: 'prepare',
-  },
-
   ssr: false,
 
   devtools: { enabled: true },
@@ -146,5 +141,10 @@ export default defineNuxtConfig({
       installPrompt: true,
       periodicSyncForUpdates: 3600
     }
+  },
+
+  skillHub: {
+    targets: ['claude-code'],
+    generationMode: 'prepare'
   }
 })
