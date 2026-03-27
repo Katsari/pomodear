@@ -6,7 +6,7 @@ A customizable productivity workspace with a Pomodoro timer, ambient sounds, mus
 
 Most Pomodoro apps are either too cluttered or too minimal. Pomodear lets you drag and hide panels, so your workspace can change depending on what you're doing and what actually helps you focus. Some days I want a totally clean timer, other days I want a task list and rain sounds in the background, and sometimes I just want to write in fullscreen.
 
-![Pomodear screenshot](https://raw.githubusercontent.com/Katsari/pomodear/main/public/images/pomodear.png)
+![Pomodear screenshot](https://raw.githubusercontent.com/Katsari/pomodear/main/public/images/screenshot-wide.jpg)
 
 ## Features
 

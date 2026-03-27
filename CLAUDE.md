@@ -131,3 +131,5 @@ Broad audience: anyone who wants a cozy, ambient timer for focused work. Could b
 3. **Quiet craft**: Inspired by Linear/Raycast's attention to detail. Interactions should feel polished and intentional without being flashy. Micro-animations serve mood, not spectacle.
 4. **Gentle focus**: The app should encourage concentration without pressure. No aggressive timers, no guilt-inducing metrics. Progress feels like a warm glow, not a scoreboard.
 5. **Layered transparency**: Glass-morphism is the core surface language. Panels float over illustrated backgrounds, creating depth through blur and opacity rather than drop shadows or elevation.
+
+Use the `nuxt-pomodear` skill as the Nuxt router/entrypoint for tasks in this repository.
