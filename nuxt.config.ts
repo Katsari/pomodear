@@ -73,9 +73,9 @@ export default defineNuxtConfig({
   pwa: {
     registerType: 'autoUpdate',
     manifest: {
-      name: 'Pomodear - Cozy productivity workspace',
+      name: 'Pomodear',
       short_name: 'Pomodear',
-      description: 'A cozy Pomodoro timer with ambient sounds, music playback, task tracking, and daily notes.',
+      description: 'A cozy, customizable productivity workspace.',
       start_url: '/',
       display: 'standalone',
       background_color: '#1A1916',
