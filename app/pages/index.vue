@@ -41,7 +41,7 @@ const backgrounds: Record<string, string> = {
   'sea': '/images/sea.webp',
   'workspace': '/images/workspace.webp',
   'capy-crow': '/images/capy_crow.webp',
-  'benny-cafe': '/images/benny_cafe.webp'
+  'leafeon': '/images/leafeon.webp'
 }
 
 const backgroundSrc = computed(() => backgrounds[selectedBackground.value] ?? '/images/dragon_shrine.webp')

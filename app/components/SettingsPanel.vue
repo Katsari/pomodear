@@ -10,7 +10,7 @@ const backgrounds = [
   { key: 'sea', label: 'Sea', image: '/images/sea.webp' },
   { key: 'workspace', label: 'Workspace', image: '/images/workspace.webp' },
   { key: 'capy-crow', label: 'Capy & Crow', image: '/images/capy_crow.webp' },
-  { key: 'benny-cafe', label: 'Benny\'s Café', image: '/images/benny_cafe.webp' }
+  { key: 'leafeon', label: 'Leafeon', image: '/images/leafeon.webp' }
 ]
 </script>
 

@@ -51,7 +51,7 @@
           "fill": {
             "type": "image",
             "enabled": true,
-            "url": "../public/images/benny_cafe.webp",
+            "url": "../public/images/dragon_shrine.webp",
             "mode": "fill"
           }
         },
